@@ -23,8 +23,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.12.17, 2.13.10]
-        java: [adopt-hotspot@17, adopt-hotspot@11]
+        scala: [2.12.17]
+        java: [adopt-hotspot@17]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
@@ -38,13 +38,6 @@ jobs:
         with:
           distribution: adopt-hotspot
           java-version: 17
-
-      - name: Setup Java (adopt-hotspot@11)
-        if: matrix.java == 'adopt-hotspot@11'
-        uses: actions/setup-java@v2
-        with:
-          distribution: adopt-hotspot
-          java-version: 11
 
       - name: Cache sbt
         uses: actions/cache@v2
@@ -64,11 +57,8 @@ jobs:
       - name: Build project
         run: sbt ++${{ matrix.scala }} validate
 
-      - name: Codecov
-        uses: codecov/codecov-action@v3
-
       - name: Compress target directories
-        run: tar cf targets.tar target modules/docs/.jvm/target modules/sbt-plugin-1_0_0/.jvm/target modules/dummy/.jvm/target modules/sbt-plugin-1_3_11/.jvm/target modules/core/.jvm/target modules/benchmark/.jvm/target project/target
+        run: tar cf targets.tar target modules/sbt-plugin-1_3_11/.jvm/target modules/sbt-plugin-1_0_0/.jvm/target project/target
 
       - name: Upload target directories
         uses: actions/upload-artifact@v2
@@ -99,13 +89,6 @@ jobs:
           distribution: adopt-hotspot
           java-version: 17
 
-      - name: Setup Java (adopt-hotspot@11)
-        if: matrix.java == 'adopt-hotspot@11'
-        uses: actions/setup-java@v2
-        with:
-          distribution: adopt-hotspot
-          java-version: 11
-
       - name: Cache sbt
         uses: actions/cache@v2
         with:
@@ -128,25 +111,5 @@ jobs:
           tar xf targets.tar
           rm targets.tar
 
-      - name: Download target directories (2.13.10)
-        uses: actions/download-artifact@v2
-        with:
-          name: target-${{ matrix.os }}-2.13.10-${{ matrix.java }}
-
-      - name: Inflate target directories (2.13.10)
-        run: |
-          tar xf targets.tar
-          rm targets.tar
-
-      - name: Publish JARs
-        env:
-          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-          PGP_SECRET: ${{ secrets.PGP_SECRET }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-        run: sbt ci-release
-
-      - name: Publish Docker image
-        run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          sbt core/Docker/publish
+      - name: Publish project
+        run: sbt ++${{ matrix.scala }} +publish
