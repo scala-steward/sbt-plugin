@@ -21,11 +21,7 @@ val Scala212 = "2.12.17"
 /// sbt-github-actions configuration
 
 ThisBuild / crossScalaVersions := Seq(Scala212)
-ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
-ThisBuild / githubWorkflowPublishTargetBranches := Seq(
-  RefPredicate.Equals(Ref.Branch(mainBranch)),
-  RefPredicate.StartsWith(Ref.Tag("v"))
-)
+ThisBuild / githubWorkflowPublishTargetBranches := Seq()
 ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Adopt, "17"))
 ThisBuild / githubWorkflowBuild := Seq(
   WorkflowStep.Sbt(List("validate"), name = Some("Build project"))
