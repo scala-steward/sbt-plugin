@@ -8,8 +8,6 @@ val projectName = "sbt-plugin"
 val rootPkg = groupId.replace("-", "")
 val gitHubOwner = "scala-steward-org"
 val gitHubUrl = s"https://github.com/$gitHubOwner/$projectName"
-val mainBranch = "main"
-val gitHubUserContent = s"https://raw.githubusercontent.com/$gitHubOwner/$projectName/$mainBranch"
 
 val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
   "sbt-plugin-1_3_11" -> List(JVMPlatform),
