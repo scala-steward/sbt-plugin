@@ -1,5 +1,3 @@
-import scala.util.Properties
-import scala.reflect.io.Path
 import sbtcrossproject.{CrossProject, CrossType, Platform}
 import sbtghactions.JavaSpec.Distribution.Adopt
 
