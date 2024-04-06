@@ -40,13 +40,15 @@ object StewardPlugin_1_3_11 extends AutoPlugin {
         val libraryDeps = libraryDependencies.value
           .map(moduleId => toDependency(moduleId, scalaVersionValue, scalaBinaryVersionValue))
 
+        val scalafixScalaBinaryVersion = findScalafixScalaBinaryVersion.value.getOrElse("2.12")
+
         val scalafixDeps = findScalafixDependencies.value
           .getOrElse(Seq.empty)
           .map(moduleId =>
             toDependency(
               moduleId,
-              scalaVersionValue,
-              scalaBinaryVersionValue,
+              "", // scalafix rules don't require a scalaVersion
+              scalafixScalaBinaryVersion,
               Some("scalafix-rule")
             )
           )
@@ -99,6 +101,17 @@ object StewardPlugin_1_3_11 extends AutoPlugin {
       val scalafixDependencies = SettingKey[Seq[ModuleID]]("scalafixDependencies").?
       Def.setting {
         scalafixDependencies.value
+      }
+    } catch {
+      case _: ClassNotFoundException => Def.setting(None)
+    }
+  }
+
+  lazy val findScalafixScalaBinaryVersion: Def.Initialize[Option[String]] = Def.settingDyn {
+    try {
+      val scalafixScalaBinaryVersion = SettingKey[String]("scalafixScalaBinaryVersion").?
+      Def.setting {
+        scalafixScalaBinaryVersion.value
       }
     } catch {
       case _: ClassNotFoundException => Def.setting(None)
