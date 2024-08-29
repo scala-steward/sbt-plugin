@@ -76,7 +76,7 @@ object StewardPlugin_1_3_11 extends AutoPlugin {
 
         // may include protocols other than http/https which may fail on constructing a java.net.URL
         def getHost(uri: String): Option[String] =
-          Try(new URL(uri).getHost).orElse(Try(new URI(uri).getHost)).toOption
+          Try(new URI(uri).getHost).toOption
 
         val resolvers = fullResolvers.value.collect {
           case repo: MavenRepository if !repo.root.startsWith("file:") =>
