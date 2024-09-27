@@ -16,8 +16,9 @@
 
 package org.scalasteward.sbt.plugin
 
-import sbt.Keys._
-import sbt._
+import sbt.*
+import sbt.Keys.*
+
 import scala.util.Try
 
 object StewardPlugin_1_3_11 extends AutoPlugin {
@@ -28,7 +29,7 @@ object StewardPlugin_1_3_11 extends AutoPlugin {
       taskKey[Unit]("Prints dependencies and resolvers as JSON for consumption by Scala Steward.")
   }
 
-  import autoImport._
+  import autoImport.*
 
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
@@ -38,6 +39,9 @@ object StewardPlugin_1_3_11 extends AutoPlugin {
         val sbtCredentials = findCredentials.value
 
         val libraryDeps = libraryDependencies.value
+          .map(moduleId => toDependency(moduleId, scalaVersionValue, scalaBinaryVersionValue))
+
+        val dependencyOverrides = Keys.dependencyOverrides.value
           .map(moduleId => toDependency(moduleId, scalaVersionValue, scalaBinaryVersionValue))
 
         val scalafixScalaBinaryVersion = findScalafixScalaBinaryVersion.value.getOrElse("2.12")
@@ -52,7 +56,7 @@ object StewardPlugin_1_3_11 extends AutoPlugin {
               Some("scalafix-rule")
             )
           )
-        val dependencies = libraryDeps ++ scalafixDeps
+        val dependencies = libraryDeps ++ scalafixDeps ++ dependencyOverrides
 
         def getCredentials(host: String, name: String): Option[Resolver.Credentials] =
           (for {
