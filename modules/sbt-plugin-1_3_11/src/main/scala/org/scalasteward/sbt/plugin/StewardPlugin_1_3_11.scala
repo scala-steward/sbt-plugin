@@ -16,8 +16,8 @@
 
 package org.scalasteward.sbt.plugin
 
-import sbt.*
-import sbt.Keys.*
+import sbt._
+import sbt.Keys._
 
 import scala.util.Try
 
@@ -29,7 +29,7 @@ object StewardPlugin_1_3_11 extends AutoPlugin {
       taskKey[Unit]("Prints dependencies and resolvers as JSON for consumption by Scala Steward.")
   }
 
-  import autoImport.*
+  import autoImport._
 
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
