@@ -40,6 +40,9 @@ object StewardPlugin_1_0_0 extends AutoPlugin {
         val libraryDeps = libraryDependencies.value
           .map(moduleId => toDependency(moduleId, scalaVersionValue, scalaBinaryVersionValue))
 
+        val dependencyOverrides = Keys.dependencyOverrides.value
+          .map(moduleId => toDependency(moduleId, scalaVersionValue, scalaBinaryVersionValue))
+
         val scalafixScalaBinaryVersion = findScalafixScalaBinaryVersion.value.getOrElse("2.12")
 
         val scalafixDeps = findScalafixDependencies.value
@@ -52,7 +55,7 @@ object StewardPlugin_1_0_0 extends AutoPlugin {
               Some("scalafix-rule")
             )
           )
-        val dependencies = libraryDeps ++ scalafixDeps
+        val dependencies = libraryDeps ++ scalafixDeps ++ dependencyOverrides
 
         def getCredentials(url: URL, name: String): Option[Resolver.Credentials] =
           (for {
