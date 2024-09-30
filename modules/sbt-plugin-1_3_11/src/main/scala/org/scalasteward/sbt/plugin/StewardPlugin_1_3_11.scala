@@ -16,9 +16,8 @@
 
 package org.scalasteward.sbt.plugin
 
-import sbt._
 import sbt.Keys._
-
+import sbt._
 import scala.util.Try
 
 object StewardPlugin_1_3_11 extends AutoPlugin {
