@@ -45,7 +45,9 @@ lazy val `sbt-plugin-1_3_11` = myCrossProject("sbt-plugin-1_3_11")
   .settings(
     scalaVersion := Scala212,
     sbtPlugin := true,
+    // scala-steward:off
     pluginCrossBuild / sbtVersion := "1.3.11"
+    // scala-steward:on
   )
 
 lazy val `sbt-plugin-1_0_0` = myCrossProject("sbt-plugin-1_0_0")
@@ -53,7 +55,9 @@ lazy val `sbt-plugin-1_0_0` = myCrossProject("sbt-plugin-1_0_0")
   .settings(
     scalaVersion := Scala212,
     sbtPlugin := true,
+    // scala-steward:off
     pluginCrossBuild / sbtVersion := "1.0.0"
+    // scala-steward:on
   )
 
 /// settings
