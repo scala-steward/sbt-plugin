@@ -84,7 +84,10 @@ object StewardPlugin_1_3_11 extends AutoPlugin {
             Resolver.MavenRepository(repo.name, repo.root, creds, getHeaders(repo.name))
           case repo: URLRepository =>
             val ivyPatterns = repo.patterns.ivyPatterns.mkString
-            val creds = getHost(ivyPatterns).flatMap(getCredentials(_, repo.name))
+            val cleanedPatternForDetermineHost =
+              ivyPatterns.replaceAll("\\[([a-zA-Z0-9]+)\\]", "$1")
+            val creds =
+              getHost(cleanedPatternForDetermineHost).flatMap(getCredentials(_, repo.name))
             Resolver.IvyRepository(repo.name, ivyPatterns, creds, getHeaders(repo.name))
         }
 
