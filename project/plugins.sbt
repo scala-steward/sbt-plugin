@@ -1,6 +1,6 @@
 addSbtPlugin("com.github.sbt" % "sbt-github-actions" % "0.25.0")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.4")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.5")
 
 addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.10.0")
 
