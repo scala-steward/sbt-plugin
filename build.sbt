@@ -10,15 +10,17 @@ val gitHubOwner = "scala-steward-org"
 val gitHubUrl = s"https://github.com/$gitHubOwner/$projectName"
 
 val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
+  "sbt-plugin-2_0_0" -> List(JVMPlatform),
   "sbt-plugin-1_3_11" -> List(JVMPlatform),
   "sbt-plugin-1_0_0" -> List(JVMPlatform)
 )
 
 val Scala212 = "2.12.20"
+val Scala3 = "3.7.2"
 
 /// sbt-github-actions configuration
 
-ThisBuild / crossScalaVersions := Seq(Scala212)
+ThisBuild / crossScalaVersions := Seq(Scala212, Scala3)
 ThisBuild / githubWorkflowPublishTargetBranches := Seq()
 ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Adopt, "17"))
 ThisBuild / githubWorkflowBuild := Seq(
@@ -34,11 +36,22 @@ ThisBuild / evictionErrorLevel := Level.Info
 lazy val root = project
   .in(file("."))
   .aggregate(
+    `sbt-plugin-2_0_0`.jvm,
     `sbt-plugin-1_3_11`.jvm,
     `sbt-plugin-1_0_0`.jvm
   )
   .settings(commonSettings)
   .settings(noPublishSettings)
+
+lazy val `sbt-plugin-2_0_0` = myCrossProject("sbt-plugin-2_0_0")
+  .settings(noPublishSettings)
+  .settings(
+    scalaVersion := Scala3,
+    sbtPlugin := true,
+    // scala-steward:off
+    pluginCrossBuild / sbtVersion := "2.0.0-RC3"
+    // scala-steward:on
+  )
 
 lazy val `sbt-plugin-1_3_11` = myCrossProject("sbt-plugin-1_3_11")
   .settings(noPublishSettings)
