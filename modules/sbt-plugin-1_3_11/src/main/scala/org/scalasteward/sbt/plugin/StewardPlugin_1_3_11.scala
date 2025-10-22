@@ -43,7 +43,11 @@ object StewardPlugin_1_3_11 extends AutoPlugin {
         val dependencyOverrides = Keys.dependencyOverrides.value
           .map(moduleId => toDependency(moduleId, scalaVersionValue, scalaBinaryVersionValue))
 
-        val scalafixScalaBinaryVersion = findScalafixScalaBinaryVersion.value.getOrElse("2.12")
+        val scalafixScalaBinaryVersion =
+          findScalafixScalaBinaryVersion.value.getOrElse("2.12") match {
+            case v if v.startsWith("3.") => "2.13"
+            case v                       => v
+          }
 
         val scalafixDeps = findScalafixDependencies.value
           .getOrElse(Seq.empty)
