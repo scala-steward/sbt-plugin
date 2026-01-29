@@ -16,7 +16,7 @@ val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
 )
 
 val Scala212 = "2.12.21"
-val Scala3 = "3.7.4"
+val Scala3 = "3.8.1"
 
 /// sbt-github-actions configuration
 
