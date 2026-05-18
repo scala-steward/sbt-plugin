@@ -72,11 +72,11 @@ object StewardPlugin_1_0_0 extends AutoPlugin {
 
         val resolvers = fullResolvers.value.collect {
           case repo: MavenRepository if !repo.root.startsWith("file:") =>
-            val creds = getCredentials(new URL(repo.root), repo.name)
+            val creds = getCredentials(new URI(repo.root).toURL, repo.name)
             Resolver.MavenRepository(repo.name, repo.root, creds)
           case repo: URLRepository =>
             val ivyPatterns = repo.patterns.ivyPatterns.mkString
-            val creds = getCredentials(new URL(ivyPatterns), repo.name)
+            val creds = getCredentials(new URI(ivyPatterns).toURL, repo.name)
             Resolver.IvyRepository(repo.name, ivyPatterns, creds)
         }
 
