@@ -1,4 +1,3 @@
-import sbtcrossproject.{CrossProject, CrossType, Platform}
 import sbtghactions.JavaSpec.Distribution.Adopt
 
 /// variables
@@ -8,12 +7,6 @@ val projectName = "sbt-plugin"
 val rootPkg = groupId.replace("-", "")
 val gitHubOwner = "scala-steward-org"
 val gitHubUrl = s"https://github.com/$gitHubOwner/$projectName"
-
-val moduleCrossPlatformMatrix: Map[String, List[Platform]] = Map(
-  "sbt-plugin-2_0_0" -> List(JVMPlatform),
-  "sbt-plugin-1_3_11" -> List(JVMPlatform),
-  "sbt-plugin-1_0_0" -> List(JVMPlatform)
-)
 
 val Scala212 = "2.12.21"
 val Scala3 = "3.8.3"
@@ -36,14 +29,14 @@ ThisBuild / evictionErrorLevel := Level.Info
 lazy val root = project
   .in(file("."))
   .aggregate(
-    `sbt-plugin-2_0_0`.jvm,
-    `sbt-plugin-1_3_11`.jvm,
-    `sbt-plugin-1_0_0`.jvm
+    `sbt-plugin-2_0_0`,
+    `sbt-plugin-1_3_11`,
+    `sbt-plugin-1_0_0`
   )
   .settings(commonSettings)
   .settings(noPublishSettings)
 
-lazy val `sbt-plugin-2_0_0` = myCrossProject("sbt-plugin-2_0_0")
+lazy val `sbt-plugin-2_0_0` = myProject("sbt-plugin-2_0_0")
   .settings(noPublishSettings)
   .settings(
     scalaVersion := Scala3,
@@ -53,7 +46,7 @@ lazy val `sbt-plugin-2_0_0` = myCrossProject("sbt-plugin-2_0_0")
     // scala-steward:on
   )
 
-lazy val `sbt-plugin-1_3_11` = myCrossProject("sbt-plugin-1_3_11")
+lazy val `sbt-plugin-1_3_11` = myProject("sbt-plugin-1_3_11")
   .settings(noPublishSettings)
   .settings(
     scalaVersion := Scala212,
@@ -63,7 +56,7 @@ lazy val `sbt-plugin-1_3_11` = myCrossProject("sbt-plugin-1_3_11")
     // scala-steward:on
   )
 
-lazy val `sbt-plugin-1_0_0` = myCrossProject("sbt-plugin-1_0_0")
+lazy val `sbt-plugin-1_0_0` = myProject("sbt-plugin-1_0_0")
   .settings(noPublishSettings)
   .settings(
     scalaVersion := Scala212,
@@ -75,11 +68,8 @@ lazy val `sbt-plugin-1_0_0` = myCrossProject("sbt-plugin-1_0_0")
 
 /// settings
 
-def myCrossProject(name: String): CrossProject =
-  CrossProject(name, file(name))(moduleCrossPlatformMatrix(name): _*)
-    .crossType(CrossType.Pure)
-    .withoutSuffixFor(JVMPlatform)
-    .in(file(s"modules/$name"))
+def myProject(name: String): Project =
+  Project(name, file(s"modules/$name"))
     .settings(
       moduleName := s"$projectName-$name",
       moduleRootPkg := s"$rootPkg.${name.replace('-', '.')}"
