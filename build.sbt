@@ -9,7 +9,7 @@ val gitHubOwner = "scala-steward-org"
 val gitHubUrl = s"https://github.com/$gitHubOwner/$projectName"
 
 val Scala212 = "2.12.21"
-val Scala3 = "3.8.3"
+val Scala3 = "3.8.4"
 
 /// sbt-github-actions configuration
 
