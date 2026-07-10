@@ -42,7 +42,7 @@ lazy val `sbt-plugin-2_0_0` = myProject("sbt-plugin-2_0_0")
     scalaVersion := Scala3,
     sbtPlugin := true,
     // scala-steward:off
-    pluginCrossBuild / sbtVersion := "2.0.0-RC8"
+    pluginCrossBuild / sbtVersion := "2.0.0"
     // scala-steward:on
   )
 
