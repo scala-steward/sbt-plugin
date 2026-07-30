@@ -129,15 +129,8 @@ object StewardPlugin_2_0_0 extends AutoPlugin {
     }
   }
 
-  lazy val findCredentials: Def.Initialize[Task[Seq[Credentials]]] = Def.taskDyn {
-    try {
-      val allCredentials = TaskKey[Seq[Credentials]]("allCredentials").?
-      Def.task {
-        allCredentials.value.getOrElse(Nil)
-      }
-    } catch {
-      case _: ClassNotFoundException => Def.task(credentials.value)
-    }
+  lazy val findCredentials: Def.Initialize[Task[Seq[Credentials]]] = Def.task {
+    allCredentials.?.value.getOrElse(credentials.value)
   }
 
   private def crossName(
