@@ -4,7 +4,6 @@ import sbtghactions.JavaSpec.Distribution.Adopt
 
 val groupId = "org.scala-steward"
 val projectName = "sbt-plugin"
-val rootPkg = groupId.replace("-", "")
 val gitHubOwner = "scala-steward-org"
 val gitHubUrl = s"https://github.com/$gitHubOwner/$projectName"
 
@@ -41,9 +40,7 @@ lazy val `sbt-plugin-2_0_0` = myProject("sbt-plugin-2_0_0")
   .settings(
     scalaVersion := Scala3,
     scriptedBufferLog := false,
-    // scala-steward:off
-    pluginCrossBuild / sbtVersion := "2.0.0"
-    // scala-steward:on
+    pluginCrossBuild / sbtVersion := "2.0.0" // scala-steward:off
   )
 
 lazy val `sbt-plugin-1_3_11` = myProject("sbt-plugin-1_3_11")
@@ -51,9 +48,7 @@ lazy val `sbt-plugin-1_3_11` = myProject("sbt-plugin-1_3_11")
   .settings(
     scalaVersion := Scala212,
     scriptedBufferLog := false,
-    // scala-steward:off
-    pluginCrossBuild / sbtVersion := "1.3.11"
-    // scala-steward:on
+    pluginCrossBuild / sbtVersion := "1.3.11" // scala-steward:off
   )
 
 lazy val `sbt-plugin-1_0_0` = myProject("sbt-plugin-1_0_0")
@@ -61,19 +56,14 @@ lazy val `sbt-plugin-1_0_0` = myProject("sbt-plugin-1_0_0")
   .settings(
     scalaVersion := Scala212,
     scriptedBufferLog := false,
-    // scala-steward:off
-    pluginCrossBuild / sbtVersion := "1.0.0"
-    // scala-steward:on
+    pluginCrossBuild / sbtVersion := "1.0.0" // scala-steward:off
   )
 
 /// settings
 
 def myProject(name: String): Project =
   Project(name, file(s"modules/$name"))
-    .settings(
-      moduleName := s"$projectName-$name",
-      moduleRootPkg := s"$rootPkg.${name.replace('-', '.')}"
-    )
+    .settings(moduleName := name)
     .settings(commonSettings)
 
 lazy val commonSettings = Def.settings(
@@ -125,11 +115,6 @@ lazy val metadataSettings = Def.settings(
 lazy val noPublishSettings = Def.settings(
   publish / skip := true
 )
-
-/// setting keys
-
-lazy val moduleRootPkg = settingKey[String]("").withRank(KeyRanks.Invisible)
-moduleRootPkg := rootPkg
 
 /// commands
 
