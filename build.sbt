@@ -89,9 +89,9 @@ lazy val compileSettings = Def.settings(
 lazy val metadataSettings = Def.settings(
   name := projectName,
   organization := groupId,
-  homepage := Some(url(gitHubUrl)),
+  homepage := Some(uri(gitHubUrl)),
   startYear := Some(2018),
-  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+  licenses := List("Apache-2.0" -> uri("http://www.apache.org/licenses/LICENSE-2.0")),
   scmInfo := Some(ScmInfo(homepage.value.get, s"scm:git:$gitHubUrl.git")),
   headerLicense := Some(HeaderLicense.ALv2("2018-2022", "Scala Steward contributors")),
   developers := List(
@@ -99,25 +99,25 @@ lazy val metadataSettings = Def.settings(
       id = "alejandrohdezma",
       name = "Alejandro Hernández",
       email = "",
-      url = url("https://github.com/alejandrohdezma")
+      url = uri("https://github.com/alejandrohdezma")
     ),
     Developer(
       id = "exoego",
       name = "TATSUNO Yasuhiro",
       email = "",
-      url = url("https://github.com/exoego")
+      url = uri("https://github.com/exoego")
     ),
     Developer(
       id = "fthomas",
       name = "Frank S. Thomas",
       email = "",
-      url = url("https://github.com/fthomas")
+      url = uri("https://github.com/fthomas")
     ),
     Developer(
       id = "mzuehlke",
       name = "Marco Zühlke",
       email = "",
-      url = url("https://github.com/mzuehlke")
+      url = uri("https://github.com/mzuehlke")
     )
   )
 )
