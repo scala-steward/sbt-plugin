@@ -4,7 +4,6 @@ import sbtghactions.JavaSpec.Distribution.Adopt
 
 val groupId = "org.scala-steward"
 val projectName = "sbt-plugin"
-val rootPkg = groupId.replace("-", "")
 val gitHubOwner = "scala-steward-org"
 val gitHubUrl = s"https://github.com/$gitHubOwner/$projectName"
 
@@ -37,48 +36,40 @@ lazy val root = project
   .settings(noPublishSettings)
 
 lazy val `sbt-plugin-2_0_0` = myProject("sbt-plugin-2_0_0")
-  .settings(noPublishSettings)
+  .enablePlugins(SbtPlugin)
   .settings(
     scalaVersion := Scala3,
-    sbtPlugin := true,
-    // scala-steward:off
-    pluginCrossBuild / sbtVersion := "2.0.0"
-    // scala-steward:on
+    scriptedBufferLog := false,
+    pluginCrossBuild / sbtVersion := "2.0.0" // scala-steward:off
   )
 
 lazy val `sbt-plugin-1_3_11` = myProject("sbt-plugin-1_3_11")
-  .settings(noPublishSettings)
+  .enablePlugins(SbtPlugin)
   .settings(
     scalaVersion := Scala212,
-    sbtPlugin := true,
-    // scala-steward:off
-    pluginCrossBuild / sbtVersion := "1.3.11"
-    // scala-steward:on
+    scriptedBufferLog := false,
+    pluginCrossBuild / sbtVersion := "1.3.11" // scala-steward:off
   )
 
 lazy val `sbt-plugin-1_0_0` = myProject("sbt-plugin-1_0_0")
-  .settings(noPublishSettings)
+  .enablePlugins(SbtPlugin)
   .settings(
     scalaVersion := Scala212,
-    sbtPlugin := true,
-    // scala-steward:off
-    pluginCrossBuild / sbtVersion := "1.0.0"
-    // scala-steward:on
+    scriptedBufferLog := false,
+    pluginCrossBuild / sbtVersion := "1.0.0" // scala-steward:off
   )
 
 /// settings
 
 def myProject(name: String): Project =
   Project(name, file(s"modules/$name"))
-    .settings(
-      moduleName := s"$projectName-$name",
-      moduleRootPkg := s"$rootPkg.${name.replace('-', '.')}"
-    )
+    .settings(moduleName := name)
     .settings(commonSettings)
 
 lazy val commonSettings = Def.settings(
   compileSettings,
-  metadataSettings
+  metadataSettings,
+  packageDoc / publishArtifact := false
 )
 
 lazy val compileSettings = Def.settings(
@@ -88,9 +79,9 @@ lazy val compileSettings = Def.settings(
 lazy val metadataSettings = Def.settings(
   name := projectName,
   organization := groupId,
-  homepage := Some(url(gitHubUrl)),
+  homepage := Some(uri(gitHubUrl)),
   startYear := Some(2018),
-  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+  licenses := List("Apache-2.0" -> uri("http://www.apache.org/licenses/LICENSE-2.0")),
   scmInfo := Some(ScmInfo(homepage.value.get, s"scm:git:$gitHubUrl.git")),
   headerLicense := Some(HeaderLicense.ALv2("2018-2022", "Scala Steward contributors")),
   developers := List(
@@ -98,25 +89,25 @@ lazy val metadataSettings = Def.settings(
       id = "alejandrohdezma",
       name = "Alejandro Hernández",
       email = "",
-      url = url("https://github.com/alejandrohdezma")
+      url = uri("https://github.com/alejandrohdezma")
     ),
     Developer(
       id = "exoego",
       name = "TATSUNO Yasuhiro",
       email = "",
-      url = url("https://github.com/exoego")
+      url = uri("https://github.com/exoego")
     ),
     Developer(
       id = "fthomas",
       name = "Frank S. Thomas",
       email = "",
-      url = url("https://github.com/fthomas")
+      url = uri("https://github.com/fthomas")
     ),
     Developer(
       id = "mzuehlke",
       name = "Marco Zühlke",
       email = "",
-      url = url("https://github.com/mzuehlke")
+      url = uri("https://github.com/mzuehlke")
     )
   )
 )
@@ -124,11 +115,6 @@ lazy val metadataSettings = Def.settings(
 lazy val noPublishSettings = Def.settings(
   publish / skip := true
 )
-
-/// setting keys
-
-lazy val moduleRootPkg = settingKey[String]("").withRank(KeyRanks.Invisible)
-moduleRootPkg := rootPkg
 
 /// commands
 
@@ -142,7 +128,8 @@ addCommandsAlias(
     "headerCheck",
     "scalafmtCheckAll",
     "scalafmtSbtCheck",
-    "test"
+    "test",
+    "scripted"
   )
 )
 
