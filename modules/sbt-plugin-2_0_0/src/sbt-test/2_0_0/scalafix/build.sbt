@@ -1,12 +1,11 @@
-scalaVersion := "2.13.18"
-credentials += Credentials("Some Realm", "artifacts.example.com", "user", "secret")
-externalResolvers += "Some Realm".at("artifacts.example.com")
+scalaVersion := "3.8.4"
+scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
 
 val expected =
   """|--- snip ---
-     |{ "groupId": "org.scala-lang", "artifactId": { "name": "scala-library", "maybeCrossName": null }, "version": "2.13.18", "sbtVersion": null, "scalaVersion": null, "configurations": null }
+     |{ "groupId": "org.scala-lang", "artifactId": { "name": "scala3-library", "maybeCrossName": "scala3-library_3" }, "version": "3.8.4", "sbtVersion": null, "scalaVersion": null, "configurations": null }
+     |{ "groupId": "com.github.liancheng", "artifactId": { "name": "organize-imports", "maybeCrossName": "organize-imports_2.13" }, "version": "0.6.0", "sbtVersion": null, "scalaVersion": null, "configurations": "scalafix-rule" }
      |{ "MavenRepository": { "name": "public", "location": "https://repo1.maven.org/maven2/", "headers": [ ] } }
-     |{ "MavenRepository": { "name": "Some Realm", "location": "artifacts.example.com", "headers": [ ], "credentials": { "user": "user", "pass": "secret" } } }
      |""".stripMargin.trim
 
 @transient lazy val check = taskKey[Unit]("")
