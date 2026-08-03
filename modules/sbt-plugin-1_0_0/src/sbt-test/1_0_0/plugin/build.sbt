@@ -1,12 +1,11 @@
-scalaVersion := "2.13.18"
-credentials += Credentials("Some Realm", "artifacts.example.com", "user", "secret")
-externalResolvers += "Some Realm".at("artifacts.example.com")
+scalaVersion := "2.12.21"
+addSbtPlugin("com.eed3si9n" % "sbt-buildinfo" % "0.11.0")
 
 val expected =
   """|--- snip ---
-     |{ "groupId": "org.scala-lang", "artifactId": { "name": "scala-library", "maybeCrossName": null }, "version": "2.13.18", "sbtVersion": null, "scalaVersion": null, "configurations": null }
+     |{ "groupId": "org.scala-lang", "artifactId": { "name": "scala-library", "maybeCrossName": null }, "version": "2.12.21", "sbtVersion": null, "scalaVersion": null, "configurations": null }
+     |{ "groupId": "com.eed3si9n", "artifactId": { "name": "sbt-buildinfo", "maybeCrossName": null }, "version": "0.11.0", "sbtVersion": "1.0", "scalaVersion": "2.12", "configurations": null }
      |{ "MavenRepository": { "name": "public", "location": "https://repo1.maven.org/maven2/", "headers": [ ] } }
-     |{ "MavenRepository": { "name": "Some Realm", "location": "artifacts.example.com", "headers": [ ], "credentials": { "user": "user", "pass": "secret" } } }
      |""".stripMargin.trim
 
 @transient lazy val check = taskKey[Unit]("")

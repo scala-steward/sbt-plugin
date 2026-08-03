@@ -1,7 +1,13 @@
-name := "credentials"
 scalaVersion := "3.8.4"
 credentials += Credentials("Some Realm", "artifacts.example.com", "user", "secret")
 externalResolvers += "Some Realm".at("artifacts.example.com")
+
+val expected =
+  """|--- snip ---
+     |{ "groupId": "org.scala-lang", "artifactId": { "name": "scala3-library", "maybeCrossName": "scala3-library_3" }, "version": "3.8.4", "sbtVersion": null, "scalaVersion": null, "configurations": null }
+     |{ "MavenRepository": { "name": "public", "location": "https://repo1.maven.org/maven2/", "headers": [ ] } }
+     |{ "MavenRepository": { "name": "Some Realm", "location": "artifacts.example.com", "headers": [ ], "credentials": { "user": "user", "pass": "secret" } } }
+     |""".stripMargin.trim
 
 @transient lazy val check = taskKey[Unit]("")
 check := {
@@ -12,18 +18,9 @@ check := {
   val out = new java.io.ByteArrayOutputStream()
   val printStream = new java.io.PrintStream(out, true, charset)
 
-  scala.Console.withOut(printStream) {
-    e.runTask(stewardDependencies, s)
-  }
+  scala.Console.withOut(printStream)(e.runTask(stewardDependencies, s))
 
   val obtained = out.toString(charset).trim
-  val expected =
-    """|--- snip ---
-       |{ "groupId": "org.scala-lang", "artifactId": { "name": "scala3-library", "maybeCrossName": "scala3-library_3" }, "version": "3.8.4", "sbtVersion": null, "scalaVersion": null, "configurations": null }
-       |{ "MavenRepository": { "name": "public", "location": "https://repo1.maven.org/maven2/", "headers": [ ] } }
-       |{ "MavenRepository": { "name": "Some Realm", "location": "artifacts.example.com", "headers": [ ], "credentials": { "user": "user", "pass": "secret" } } }
-       |""".stripMargin.trim
-
   if (obtained != expected) {
     val msg = s"""|Output mismatch!
                   |Expected:\n$expected
