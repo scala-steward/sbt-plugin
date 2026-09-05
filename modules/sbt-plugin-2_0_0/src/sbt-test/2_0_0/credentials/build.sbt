@@ -4,7 +4,7 @@ externalResolvers += "Some Realm".at("artifacts.example.com")
 
 val expected =
   """|--- snip ---
-     |{ "groupId": "org.scala-lang", "artifactId": { "name": "scala3-library", "maybeCrossName": "scala3-library_3" }, "version": "3.8.4", "sbtVersion": null, "scalaVersion": null, "configurations": null }
+     |{ "groupId": "org.scala-lang", "artifactId": { "name": "scala3-library", "maybeCrossName": "scala3-library_3" }, "version": "3.9.0", "sbtVersion": null, "scalaVersion": null, "configurations": null }
      |{ "MavenRepository": { "name": "public", "location": "https://repo1.maven.org/maven2/", "headers": [ ] } }
      |{ "MavenRepository": { "name": "Some Realm", "location": "artifacts.example.com", "headers": [ ], "credentials": { "user": "user", "pass": "secret" } } }
      |""".stripMargin.trim

@@ -4,7 +4,7 @@ libraryDependencies += "org.typelevel" %% "cats-core" % "2.13.0"
 
 val expected =
   """|--- snip ---
-     |{ "groupId": "org.scala-lang", "artifactId": { "name": "scala3-library", "maybeCrossName": "scala3-library_3" }, "version": "3.8.4", "sbtVersion": null, "scalaVersion": null, "configurations": null }
+     |{ "groupId": "org.scala-lang", "artifactId": { "name": "scala3-library", "maybeCrossName": "scala3-library_3" }, "version": "3.9.0", "sbtVersion": null, "scalaVersion": null, "configurations": null }
      |{ "groupId": "org.apache.commons", "artifactId": { "name": "commons-lang3", "maybeCrossName": null }, "version": "3.20.0", "sbtVersion": null, "scalaVersion": null, "configurations": null }
      |{ "groupId": "org.typelevel", "artifactId": { "name": "cats-core", "maybeCrossName": "cats-core_3" }, "version": "2.13.0", "sbtVersion": null, "scalaVersion": null, "configurations": null }
      |{ "MavenRepository": { "name": "public", "location": "https://repo1.maven.org/maven2/", "headers": [ ] } }
