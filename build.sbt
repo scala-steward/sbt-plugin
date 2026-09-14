@@ -8,11 +8,12 @@ val gitHubOwner = "scala-steward-org"
 val gitHubUrl = s"https://github.com/$gitHubOwner/$projectName"
 
 val Scala212 = "2.12.21"
-val Scala3 = "3.8.4"
+val Scala3_sbt2_0 = "3.8.4"
+val Scala3_sbt2_1 = "3.9.0"
 
 /// sbt-github-actions configuration
 
-ThisBuild / crossScalaVersions := Seq(Scala212, Scala3)
+ThisBuild / crossScalaVersions := Seq(Scala212, Scala3_sbt2_0, Scala3_sbt2_1)
 ThisBuild / githubWorkflowPublishTargetBranches := Seq()
 ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Temurin, "17"))
 ThisBuild / githubWorkflowBuild := Seq(
@@ -28,6 +29,7 @@ ThisBuild / evictionErrorLevel := Level.Info
 lazy val root = project
   .in(file("."))
   .aggregate(
+    `sbt-plugin-2_1_0`,
     `sbt-plugin-2_0_0`,
     `sbt-plugin-1_3_11`,
     `sbt-plugin-1_0_0`
@@ -35,10 +37,18 @@ lazy val root = project
   .settings(commonSettings)
   .settings(noPublishSettings)
 
+lazy val `sbt-plugin-2_1_0` = myProject("sbt-plugin-2_1_0")
+  .enablePlugins(SbtPlugin)
+  .settings(
+    scalaVersion := Scala3_sbt2_1,
+    scriptedBufferLog := false,
+    pluginCrossBuild / sbtVersion := "2.1.0-M1" // scala-steward:off
+  )
+
 lazy val `sbt-plugin-2_0_0` = myProject("sbt-plugin-2_0_0")
   .enablePlugins(SbtPlugin)
   .settings(
-    scalaVersion := Scala3,
+    scalaVersion := Scala3_sbt2_0,
     scriptedBufferLog := false,
     pluginCrossBuild / sbtVersion := "2.0.0" // scala-steward:off
   )
