@@ -1,4 +1,4 @@
-import sbtghactions.JavaSpec.Distribution.Adopt
+import sbtghactions.JavaSpec.Distribution.Temurin
 
 /// variables
 
@@ -15,7 +15,7 @@ val Scala3_sbt2_1 = "3.9.0"
 
 ThisBuild / crossScalaVersions := Seq(Scala212, Scala3_sbt2_0, Scala3_sbt2_1)
 ThisBuild / githubWorkflowPublishTargetBranches := Seq()
-ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Adopt, "17"))
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Temurin, "17"))
 ThisBuild / githubWorkflowBuild := Seq(
   WorkflowStep.Sbt(List("validate"), name = Some("Build project"))
 )
